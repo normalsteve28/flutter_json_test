@@ -48,8 +48,7 @@ class HomeState extends State<Home> {
     super.dispose();
   }
 
-  void createFile(
-      Map<String, dynamic> content, Directory dir, String fileName) {
+  void createFile(List<dynamic> content, Directory dir, String fileName) {
     print("Creating file!");
     File file = new File(dir.path + "/" + fileName);
     print(dir);
@@ -58,19 +57,25 @@ class HomeState extends State<Home> {
     file.writeAsStringSync(json.encode(content));
   }
 
-  void writeToFile(String syss, String diaa, String hrr) {
+  void writeToFile(String sys, String dia, String hr) {
     print("Writing to file!");
-    Map<String, String> content = {'sys': syss, 'dia': diaa, 'hr': hrr};
+    List<dynamic> initialContent = [
+      {'sys': sys, 'dia': dia, 'hr': hr}
+    ];
+    Map<String, String> content = {'sys': sys, 'dia': dia, 'hr': hr};
 
     if (fileExists) {
       print("File exists");
-      Map<String, dynamic> jsonFileContent =
-          json.decode(jsonFile.readAsStringSync());
-      jsonFileContent.addAll(content);
+      List<dynamic> jsonFileContent = json.decode(jsonFile.readAsStringSync());
+      print(jsonFile.readAsStringSync());
+      print(json.decode(jsonFile.readAsStringSync()));
+      jsonFileContent.add(content);
       jsonFile.writeAsStringSync(json.encode(jsonFileContent));
     } else {
       print("File does not exist!");
-      createFile(content, dir, fileName);
+      createFile(initialContent, dir, fileName);
+      print(jsonFile.readAsStringSync());
+      print(json.decode(jsonFile.readAsStringSync()));
     }
     this.setState(() => fileContent = json.decode(jsonFile.readAsStringSync()));
     print(fileContent);
@@ -78,6 +83,7 @@ class HomeState extends State<Home> {
 
   void deleteFile() {
     jsonFile.delete();
+    fileExists = false;
   }
 
   @override
