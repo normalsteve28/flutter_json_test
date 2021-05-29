@@ -115,14 +115,6 @@ class HomeState extends State<Home> {
             child: new Text("Delete file"),
             onPressed: () => deleteFile(),
           ),
-          new RaisedButton(
-            child: new Text("Create file"),
-            onPressed: () => createFile({
-              'sys': sysInputController.text,
-              'dia': diaInputController.text,
-              'hr': hrInputController.text
-            }, dir, fileName),
-          )
         ],
       ),
     );
